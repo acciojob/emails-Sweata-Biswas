@@ -30,23 +30,21 @@ public class Workspace extends Gmail{
         Collections.sort(calendar,(o1, o2) -> {
             return o1.getStartTime() == o2.getStartTime() ? o1.getStartTime().compareTo(o2.getStartTime()) : o1.getEndTime().compareTo(o2.getEndTime());
         });
-//        Queue<LocalTime> addTime = new LinkedList<>();
-           int maxMeeting = 1;
-            for(int i = 0; i< calendar.size()-1 ;i++) {
+            LocalTime limit = calendar.get(0).getEndTime();
+
+           int maxMeeting = 0;
+           if(calendar.size()>0){
+               maxMeeting ++;
+           }
+            for(int i = 0; i< calendar.size() ;i++) {
 //                System.out.println("start  : " + calendar.get(i).getStartTime());
 //                System.out.println("End  :" + calendar.get(i).getEndTime());
 
-//                for (int j = i+1; j < calendar.size() - 1; j++) {
-                    Meeting index_i = calendar.get(i);
-                    Meeting index_next = calendar.get(i+1);
-                    int startval = index_next.getStartTime().compareTo(index_i.getEndTime());
-//                int endval = index_i.getEndTime().compareTo(index_next.getEndTime());
-//                    System.out.println("Startval  " + startval);
-//                System.out.println("endval  "+ endval);
-                    if (startval < 0)
-                        maxMeeting++;
-                }
-//            }
+                   if(calendar.get(i).getStartTime().compareTo(limit)>0){
+                       maxMeeting++;
+                       limit =calendar.get(i).getEndTime();
+                   }
+            }
             return maxMeeting;
 
 
